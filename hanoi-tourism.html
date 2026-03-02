@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Du Lịch Hà Nội – Ngàn Năm Văn Hiến</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', sans-serif; color: #1a1a1a; background: #fff; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: rgba(20,40,20,0.92); backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 64px;
+  }
+  .logo { color: #f5c842; font-size: 1.3rem; font-weight: 700; letter-spacing: 1px; text-decoration: none; }
+  .nav-links a { color: #eee; text-decoration: none; margin-left: 28px; font-size: 0.9rem; transition: color .2s; }
+  .nav-links a:hover { color: #f5c842; }
+
+  /* HERO */
+  .hero {
+    height: 100vh;
+    background: linear-gradient(135deg, #0d2b0d 0%, #1a4a1a 40%, #2d6a2d 70%, #8b4513 100%);
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-content { position: relative; z-index: 1; }
+  .hero-tag { color: #f5c842; font-size: 0.85rem; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 16px; }
+  .hero h1 { color: #fff; font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 800; line-height: 1.1; margin-bottom: 20px; }
+  .hero h1 span { color: #f5c842; }
+  .hero p { color: rgba(255,255,255,0.8); font-size: 1.15rem; max-width: 560px; margin: 0 auto 36px; line-height: 1.7; }
+  .btn { display: inline-block; padding: 14px 36px; border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: all .25s; }
+  .btn-primary { background: #f5c842; color: #1a1a1a; }
+  .btn-primary:hover { background: #e6b800; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(245,200,66,0.4); }
+  .btn-outline { border: 2px solid rgba(255,255,255,0.5); color: #fff; margin-left: 14px; }
+  .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
+
+  /* STATS */
+  .stats { background: #f5c842; padding: 32px 40px; display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; }
+  .stat-item { text-align: center; }
+  .stat-num { font-size: 2rem; font-weight: 800; color: #1a1a1a; }
+  .stat-label { font-size: 0.78rem; color: #555; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+
+  /* SECTIONS */
+  section { padding: 90px 40px; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-tag { color: #2d6a2d; font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; font-weight: 600; margin-bottom: 10px; }
+  .section-title { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; color: #1a1a1a; margin-bottom: 16px; }
+  .section-title span { color: #2d6a2d; }
+  .section-desc { color: #555; font-size: 1.05rem; line-height: 1.8; max-width: 680px; }
+
+  /* GEOGRAPHY */
+  .geo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 50px; align-items: start; }
+  .geo-text p { color: #444; line-height: 1.9; font-size: 1rem; margin-bottom: 16px; }
+  .geo-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .geo-card { background: #f8faf8; border: 1px solid #e0ece0; border-radius: 14px; padding: 22px; }
+  .geo-card .icon { font-size: 1.8rem; margin-bottom: 10px; }
+  .geo-card h4 { font-size: 0.95rem; font-weight: 700; color: #1a1a1a; margin-bottom: 6px; }
+  .geo-card p { font-size: 0.85rem; color: #666; line-height: 1.6; }
+
+  /* CLIMATE */
+  .climate-bg { background: linear-gradient(135deg, #f0f8f0, #e8f4e8); }
+  .seasons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 50px; }
+  .season-card { background: #fff; border-radius: 18px; padding: 28px 20px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.07); transition: transform .2s; }
+  .season-card:hover { transform: translateY(-6px); }
+  .season-card .season-icon { font-size: 2.5rem; margin-bottom: 12px; }
+  .season-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+  .season-card p { font-size: 0.85rem; color: #666; line-height: 1.6; }
+  .season-card.xuan { border-top: 4px solid #ff6b9d; }
+  .season-card.ha { border-top: 4px solid #ff9500; }
+  .season-card.thu { border-top: 4px solid #f5c842; }
+  .season-card.dong { border-top: 4px solid #5ac8fa; }
+
+  /* ATTRACTIONS */
+  .attractions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 50px; }
+  .attraction-card { border-radius: 18px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.1); transition: transform .25s; }
+  .attraction-card:hover { transform: translateY(-8px); }
+  .attraction-img { height: 200px; display: flex; align-items: center; justify-content: center; font-size: 4rem; }
+  .a1 { background: linear-gradient(135deg, #1a3a6b, #2d5fa8); }
+  .a2 { background: linear-gradient(135deg, #2d6a2d, #4a9e4a); }
+  .a3 { background: linear-gradient(135deg, #8b2500, #c44a00); }
+  .a4 { background: linear-gradient(135deg, #4a2d8b, #7a5ec9); }
+  .a5 { background: linear-gradient(135deg, #8b4513, #c47a3a); }
+  .a6 { background: linear-gradient(135deg, #1a6b6b, #2da8a8); }
+  .attraction-info { padding: 20px; }
+  .attraction-info h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+  .attraction-info p { font-size: 0.85rem; color: #666; line-height: 1.6; }
+
+  /* ECONOMY */
+  .eco-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-top: 50px; }
+  .eco-card { background: #fff; border: 1px solid #e8e8e8; border-radius: 16px; padding: 28px; }
+  .eco-card .eco-icon { font-size: 2rem; margin-bottom: 14px; }
+  .eco-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; color: #1a1a1a; }
+  .eco-card p { font-size: 0.88rem; color: #666; line-height: 1.7; }
+  .eco-card.highlight { background: linear-gradient(135deg, #1a4a1a, #2d6a2d); color: #fff; border: none; }
+  .eco-card.highlight h3 { color: #f5c842; }
+  .eco-card.highlight p { color: rgba(255,255,255,0.85); }
+
+  /* CONTACT */
+  .contact-bg { background: linear-gradient(135deg, #0d2b0d, #1a4a1a); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 50px; align-items: start; }
+  .contact-info h3 { color: #f5c842; font-size: 1.3rem; font-weight: 700; margin-bottom: 20px; }
+  .contact-item { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px; }
+  .contact-item .ci-icon { font-size: 1.5rem; width: 48px; height: 48px; background: rgba(245,200,66,0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .contact-item .ci-text h4 { color: #fff; font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; }
+  .contact-item .ci-text p, .contact-item .ci-text a { color: rgba(255,255,255,0.7); font-size: 0.88rem; text-decoration: none; }
+  .contact-item .ci-text a:hover { color: #f5c842; }
+  .contact-form { background: rgba(255,255,255,0.06); border-radius: 20px; padding: 32px; }
+  .contact-form h3 { color: #fff; font-size: 1.1rem; font-weight: 700; margin-bottom: 22px; }
+  .form-group { margin-bottom: 16px; }
+  .form-group label { display: block; color: rgba(255,255,255,0.7); font-size: 0.82rem; margin-bottom: 6px; }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 10px; padding: 12px 16px; color: #fff; font-size: 0.9rem; outline: none;
+    transition: border-color .2s;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: #f5c842; }
+  .form-group textarea { height: 100px; resize: vertical; }
+  .form-group select option { background: #1a4a1a; color: #fff; }
+  .btn-submit { width: 100%; background: #f5c842; color: #1a1a1a; border: none; border-radius: 10px; padding: 14px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all .2s; }
+  .btn-submit:hover { background: #e6b800; transform: translateY(-1px); }
+
+  /* FOOTER */
+  footer { background: #0a1a0a; color: rgba(255,255,255,0.5); text-align: center; padding: 28px; font-size: 0.85rem; }
+  footer span { color: #f5c842; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    section { padding: 60px 20px; }
+    .geo-grid, .contact-grid { grid-template-columns: 1fr; gap: 30px; }
+    .seasons { grid-template-columns: 1fr 1fr; }
+    .attractions-grid { grid-template-columns: 1fr 1fr; }
+    .eco-grid { grid-template-columns: 1fr; }
+    .stats { gap: 30px; }
+  }
+  @media (max-width: 480px) {
+    .attractions-grid { grid-template-columns: 1fr; }
+    .seasons { grid-template-columns: 1fr; }
+    .geo-cards { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="#">🏛 HÀ NỘI</a>
+  <div class="nav-links">
+    <a href="#geography">Vị trí</a>
+    <a href="#climate">Khí hậu</a>
+    <a href="#attractions">Danh lam</a>
+    <a href="#economy">Kinh tế</a>
+    <a href="#contact">Liên hệ</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-tag">✦ Thủ Đô Nghìn Năm Văn Hiến ✦</div>
+    <h1>Khám Phá<br><span>Hà Nội</span></h1>
+    <p>Trái tim của Việt Nam – nơi hội tụ văn hóa ngàn năm, kiến trúc cổ kính và nhịp sống hiện đại hòa quyện cùng thiên nhiên tươi đẹp.</p>
+    <a href="#attractions" class="btn btn-primary">Khám phá ngay</a>
+    <a href="#contact" class="btn btn-outline">Liên hệ tour</a>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-item">
+    <div class="stat-num">8,5 triệu</div>
+    <div class="stat-label">Dân số chính thức</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">3.360 km²</div>
+    <div class="stat-label">Diện tích tự nhiên</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">5.922+</div>
+    <div class="stat-label">Di tích lịch sử</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">20%</div>
+    <div class="stat-label">Đóng góp ngân sách quốc gia</div>
+  </div>
+</div>
+
+<!-- GEOGRAPHY -->
+<section id="geography">
+  <div class="section-inner">
+    <div class="section-tag">📍 Vị trí địa lý</div>
+    <h2 class="section-title">Trung tâm <span>Đồng bằng Sông Hồng</span></h2>
+    <p class="section-desc">Hà Nội tọa lạc tại vĩ độ 20°53'–21°23' Bắc và kinh độ 105°44'–106°02' Đông, là đầu mối giao thông kết nối các tỉnh miền Bắc và quốc tế.</p>
+    <div class="geo-grid">
+      <div class="geo-text">
+        <p>Địa hình Hà Nội thấp dần từ Bắc xuống Nam và từ Tây sang Đông, với độ cao trung bình 5–20 mét. Thành phố gồm 3 vùng rõ rệt: đồng bằng chiếm 3/4 diện tích, vùng đồi núi thấp ở Sóc Sơn và vùng núi cao Ba Vì, Mỹ Đức.</p>
+        <p>Hệ thống sông ngòi phong phú với sông Hồng làm trục chính, cùng hàng trăm hồ lớn nhỏ như hồ Tây, hồ Hoàn Kiếm tạo nên cảnh quan "thành phố của những hồ nước" đặc sắc.</p>
+        <p>Hà Nội có 30 đơn vị hành chính cấp huyện gồm 12 quận, 17 huyện và 1 thị xã Sơn Tây. Cách sân bay quốc tế Nội Bài 30 km và cảng Hải Phòng 100 km.</p>
+      </div>
+      <div class="geo-cards">
+        <div class="geo-card">
+          <div class="icon">🏔</div>
+          <h4>Núi Ba Vì</h4>
+          <p>Vùng núi cao phía Tây, điểm du lịch sinh thái nổi tiếng với Vườn Quốc gia Ba Vì</p>
+        </div>
+        <div class="geo-card">
+          <div class="icon">🌊</div>
+          <h4>Sông Hồng</h4>
+          <p>Dòng sông lớn nhất chảy qua thành phố, cùng mạng lưới hồ ao phong phú</p>
+        </div>
+        <div class="geo-card">
+          <div class="icon">🌿</div>
+          <h4>27.000 ha rừng</h4>
+          <p>Tập trung tại Ba Vì, Sóc Sơn – "lá phổi xanh" điều hòa khí hậu Thủ đô</p>
+        </div>
+        <div class="geo-card">
+          <div class="icon">✈️</div>
+          <h4>Kết nối quốc tế</h4>
+          <p>Sân bay Nội Bài 30 km, cảng biển Hải Phòng 100 km, đường cao tốc hiện đại</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLIMATE -->
+<section id="climate" class="climate-bg">
+  <div class="section-inner">
+    <div class="section-tag">🌤 Khí hậu</div>
+    <h2 class="section-title">Bốn mùa <span>rõ rệt</span></h2>
+    <p class="section-desc">Hà Nội thuộc vùng khí hậu nhiệt đới gió mùa ẩm, nhiệt độ trung bình 23–25°C, lượng mưa 1.600–1.800 mm/năm.</p>
+    <div class="seasons">
+      <div class="season-card xuan">
+        <div class="season-icon">🌸</div>
+        <h3>Mùa Xuân</h3>
+        <p>Mưa phùn, ẩm ướt. Thời tiết dịu mát, lý tưởng để dạo phố cổ và thưởng thức ẩm thực vỉa hè.</p>
+      </div>
+      <div class="season-card ha">
+        <div class="season-icon">☀️</div>
+        <h3>Mùa Hè</h3>
+        <p>Nóng bức, mưa nhiều. Thích hợp tham quan bảo tàng, hồ nước và tận hưởng kem Tràng Tiền.</p>
+      </div>
+      <div class="season-card thu">
+        <div class="season-icon">🍂</div>
+        <h3>Mùa Thu</h3>
+        <p>Mát mẻ, hanh khô – mùa đẹp nhất Hà Nội. Thời điểm vàng để chụp ảnh và khám phá phố phường.</p>
+      </div>
+      <div class="season-card dong">
+        <div class="season-icon">❄️</div>
+        <h3>Mùa Đông</h3>
+        <p>Lạnh, ít mưa. Bầu không khí se lạnh đặc trưng, thưởng thức bún bò, phở nóng rất tuyệt.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ATTRACTIONS -->
+<section id="attractions">
+  <div class="section-inner">
+    <div class="section-tag">🏛 Danh lam thắng cảnh</div>
+    <h2 class="section-title">Di sản & <span>Văn hóa</span></h2>
+    <p class="section-desc">Hơn 5.922 di tích lịch sử – văn hóa, trong đó hơn 2.400 di tích được xếp hạng. Hà Nội là thành viên Mạng lưới Thành phố Sáng tạo UNESCO.</p>
+    <div class="attractions-grid">
+      <div class="attraction-card">
+        <div class="attraction-img a1">🏯</div>
+        <div class="attraction-info">
+          <h3>Hoàng Thành Thăng Long</h3>
+          <p>Di sản văn hóa thế giới UNESCO, trung tâm quyền lực ngàn năm của các triều đại Việt Nam.</p>
+        </div>
+      </div>
+      <div class="attraction-card">
+        <div class="attraction-img a2">🗼</div>
+        <div class="attraction-info">
+          <h3>Hồ Hoàn Kiếm & Tháp Rùa</h3>
+          <p>Biểu tượng trái tim Hà Nội. Đền Ngọc Sơn linh thiêng cạnh hồ Gươm xanh mát.</p>
+        </div>
+      </div>
+      <div class="attraction-card">
+        <div class="attraction-img a3">📜</div>
+        <div class="attraction-info">
+          <h3>Văn Miếu – Quốc Tử Giám</h3>
+          <p>Trường đại học đầu tiên của Việt Nam, nơi lưu giữ Bia Tiến Sĩ được UNESCO vinh danh.</p>
+        </div>
+      </div>
+      <div class="attraction-card">
+        <div class="attraction-img a4">🏡</div>
+        <div class="attraction-info">
+          <h3>Phố Cổ 36 Phố Phường</h3>
+          <p>Kiến trúc cổ kính xen lẫn kiến trúc Pháp, không gian mua sắm và ẩm thực độc đáo.</p>
+        </div>
+      </div>
+      <div class="attraction-card">
+        <div class="attraction-img a5">⛩</div>
+        <div class="attraction-info">
+          <h3>Chùa Hương & Đền Gióng</h3>
+          <p>Lễ hội truyền thống nổi tiếng, điểm hành hương tâm linh thu hút hàng triệu du khách mỗi năm.</p>
+        </div>
+      </div>
+      <div class="attraction-card">
+        <div class="attraction-img a6">🌲</div>
+        <div class="attraction-info">
+          <h3>Vườn QG Ba Vì & Làng Cổ Đường Lâm</h3>
+          <p>Thiên nhiên xanh mát, nghỉ dưỡng sinh thái kết hợp khám phá làng Việt cổ còn nguyên vẹn.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ECONOMY -->
+<section id="economy" style="background: #fafafa;">
+  <div class="section-inner">
+    <div class="section-tag">💼 Kinh tế – Xã hội</div>
+    <h2 class="section-title">Động lực tăng trưởng <span>Bắc Bộ</span></h2>
+    <p class="section-desc">Hà Nội là trung tâm kinh tế, khoa học hàng đầu Việt Nam, đóng góp khoảng 20% ngân sách quốc gia với tốc độ tăng trưởng cao và bền vững.</p>
+    <div class="eco-grid">
+      <div class="eco-card highlight">
+        <div class="eco-icon">🏭</div>
+        <h3>Khu Công Nghiệp & Công Nghệ Cao</h3>
+        <p>KCN Thăng Long, Nội Bài, Quang Minh, Khu CNC Hòa Lạc thu hút mạnh FDI vào công nghệ cao, điện tử, chế biến chế tạo.</p>
+      </div>
+      <div class="eco-card">
+        <div class="eco-icon">🏙</div>
+        <h3>Cơ sở hạ tầng hiện đại</h3>
+        <p>Hệ thống đường cao tốc, đường sắt đô thị, viễn thông và internet tốc độ cao được đầu tư đồng bộ, hàng đầu cả nước.</p>
+      </div>
+      <div class="eco-card">
+        <div class="eco-icon">🎓</div>
+        <h3>Trung tâm Giáo dục – Khoa học</h3>
+        <p>Tập trung nhiều trường đại học, viện nghiên cứu lớn nhất cả nước, nguồn nhân lực chất lượng cao dồi dào.</p>
+      </div>
+      <div class="eco-card">
+        <div class="eco-icon">🌐</div>
+        <h3>Thu hút FDI hàng đầu</h3>
+        <p>Luôn nằm trong top đầu cả nước về thu hút đầu tư nước ngoài, môi trường kinh doanh thuận lợi và thông thoáng.</p>
+      </div>
+      <div class="eco-card">
+        <div class="eco-icon">🛍</div>
+        <h3>Thương mại – Dịch vụ</h3>
+        <p>Ngành dịch vụ và thương mại chiếm tỷ trọng lớn nhất cơ cấu kinh tế, hệ thống bán lẻ và logistics phát triển mạnh.</p>
+      </div>
+      <div class="eco-card">
+        <div class="eco-icon">✈️</div>
+        <h3>Du lịch phát triển</h3>
+        <p>Hàng triệu lượt khách quốc tế mỗi năm. UNESCO công nhận Hà Nội là Thành phố Sáng tạo trên thế giới.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-bg">
+  <div class="section-inner">
+    <div class="section-tag" style="color: #f5c842;">📞 Liên hệ</div>
+    <h2 class="section-title" style="color: #fff;">Lên kế hoạch <span style="color: #f5c842;">chuyến đi</span></h2>
+    <p class="section-desc" style="color: rgba(255,255,255,0.7);">Đội ngũ chuyên gia du lịch của chúng tôi sẵn sàng tư vấn và hỗ trợ bạn xây dựng hành trình khám phá Hà Nội trọn vẹn nhất.</p>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>Thông tin liên hệ</h3>
+        <div class="contact-item">
+          <div class="ci-icon">📞</div>
+          <div class="ci-text">
+            <h4>Hotline</h4>
+            <a href="tel:+84247301234">024 7301 2345</a><br>
+            <a href="tel:+84907654321">0907 654 321</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">✉️</div>
+          <div class="ci-text">
+            <h4>Email</h4>
+            <a href="mailto:info@dulichhanoi.vn">info@dulichhanoi.vn</a><br>
+            <a href="mailto:tour@dulichhanoi.vn">tour@dulichhanoi.vn</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">🕐</div>
+          <div class="ci-text">
+            <h4>Giờ làm việc</h4>
+            <p>Thứ 2 – Thứ 6: 8:00 – 18:00</p>
+            <p>Thứ 7 – CN: 8:00 – 12:00</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">📍</div>
+          <div class="ci-text">
+            <h4>Địa chỉ</h4>
+            <p>Số 1 Đinh Tiên Hoàng, Hoàn Kiếm, Hà Nội</p>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <h3>📋 Đặt tư vấn miễn phí</h3>
+        <div class="form-group">
+          <label>Họ và tên</label>
+          <input type="text" placeholder="Nguyễn Văn A">
+        </div>
+        <div class="form-group">
+          <label>Số điện thoại / Email</label>
+          <input type="text" placeholder="0912 345 678 hoặc email@gmail.com">
+        </div>
+        <div class="form-group">
+          <label>Bạn quan tâm đến</label>
+          <select>
+            <option>Tour trong ngày</option>
+            <option>Tour 2–3 ngày</option>
+            <option>Tour văn hóa – lịch sử</option>
+            <option>Tour ẩm thực</option>
+            <option>Tour sinh thái Ba Vì – Suối Hai</option>
+            <option>Tùy chỉnh theo yêu cầu</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Ghi chú thêm</label>
+          <textarea placeholder="Số người, ngày khởi hành, yêu cầu đặc biệt..."></textarea>
+        </div>
+        <button class="btn-submit" onclick="alert('Cảm ơn bạn! Chúng tôi sẽ liên hệ trong 24h.')">Gửi yêu cầu tư vấn →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 <span>Du Lịch Hà Nội</span> – Ngàn năm văn hiến, trái tim Việt Nam ❤️</p>
+  <p style="margin-top: 8px;">Hotline: <span>024 7301 2345</span> | Email: <span>info@dulichhanoi.vn</span></p>
+</footer>
+
+</body>
+</html>
